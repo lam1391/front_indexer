@@ -1,35 +1,42 @@
+
 # front_indexer
 
-This template should help get you started developing with Vue 3 in Vite.
+front indexer is the way with we can interact with the mails directory storage in zinc search
+we can watch all the mails just in the main entrance or you can do a search of any word and the apliccation send all the match 
+## Environment Variables
 
-## Recommended IDE Setup
+To run this project, you will need to add the following environment variables to your .env file
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
-## Customize configuration
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+`VITE_API_ENDPOINT_ALL_MAILS`
 
-## Project Setup
+`VITE_API_ENDPOINT_FILTER_MAILS`
 
-```sh
-npm install
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://link-to-project
 ```
 
-### Compile and Hot-Reload for Development
+Go to the project directory
 
-```sh
-npm run dev
+```bash
+  cd my-project
 ```
 
-### Compile and Minify for Production
+Install dependencies
 
-```sh
-npm run build
+```bash
+  npm install
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+Start the server
 
-```sh
-npm run test:unit
+```bash
+  npm run dev
 ```
+

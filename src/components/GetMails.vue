@@ -1,5 +1,6 @@
 <script >
 export default {
+  
 
   data() {
     return {
@@ -21,7 +22,10 @@ export default {
       dateMail:"",
       contentMail:"",
       totalMailsFound:0,
-      isFilter:false
+      isFilter:false,
+      VITE_API_ENDPOINT_ALL_MAILS: import.meta.env.VITE_API_ENDPOINT_ALL_MAILS,
+      VITE_API_ENDPOINT_FILTER_MAILS : import.meta.env.VITE_API_ENDPOINT_FILTER_MAILS
+
 
     }
   },
@@ -37,7 +41,8 @@ export default {
       this.isFilter = false
       this.mails = []
       this.mailsPaginated = []
-      this.url = 'http://localhost:3033/mails/'
+ 
+      this.url = this.VITE_API_ENDPOINT_ALL_MAILS
       this.url += '?' + ( new URLSearchParams( {from:this.fromItem,max:this.itemPerPage} ) ).toString();
       fetch(this.url,{
               method: 'get'
@@ -72,7 +77,7 @@ export default {
       this.isFilter = true
       this.mails = []
       this.mailsPaginated = []
-      this.url = 'http://localhost:3033/mails/filter/'
+      this.url = this.VITE_API_ENDPOINT_FILTER_MAILS
       this.url += '?' + ( new URLSearchParams( {from :this.fromItem,max:this.itemPerPage,filterID:this.filterDesc} ) ).toString();
       fetch(this.url,{
               method: 'get'
@@ -160,8 +165,7 @@ export default {
      
     },
     showMessage(id){
-      console.log("click: "+ id );
-      console.log( this.mails[id]._source.Subject);
+
       this.subjectMail =  this.mails[id]._source.Subject;
       this.fromMail =  this.mails[id]._source.From;
       this.toMail = this.mails[id]._source.To;
@@ -170,6 +174,7 @@ export default {
     }
   },
   mounted() {
+    
     this.getMails()
   }
 }
