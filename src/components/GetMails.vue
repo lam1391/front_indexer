@@ -24,7 +24,8 @@ export default {
       totalMailsFound:0,
       isFilter:false,
       VITE_API_ENDPOINT_ALL_MAILS: import.meta.env.VITE_API_ENDPOINT_ALL_MAILS,
-      VITE_API_ENDPOINT_FILTER_MAILS : import.meta.env.VITE_API_ENDPOINT_FILTER_MAILS
+      VITE_API_ENDPOINT_FILTER_MAILS : import.meta.env.VITE_API_ENDPOINT_FILTER_MAILS,
+      VITE_API_ENDPOINT_TOKEN : import.meta.env.VITE_API_ENDPOINT_TOKEN
 
 
     }
@@ -44,8 +45,13 @@ export default {
  
       this.url = this.VITE_API_ENDPOINT_ALL_MAILS
       this.url += '?' + ( new URLSearchParams( {from:this.fromItem,max:this.itemPerPage} ) ).toString();
+      console.log('token:'+ this.VITE_API_ENDPOINT_TOKEN)
       fetch(this.url,{
-              method: 'get'
+            headers: {
+              method: 'get',
+              Authorization:'Bearer ' + this.VITE_API_ENDPOINT_TOKEN
+              }
+          
           })
         .then(response => 
           response.json()
@@ -53,6 +59,7 @@ export default {
         .then(data => {
          
           this.mails = data.hits.hits
+          console.log(data.hits.hits)
           this.totalMailsFound = data.hits.total.value
         })
         .catch(err => {
@@ -79,9 +86,13 @@ export default {
       this.mailsPaginated = []
       this.url = this.VITE_API_ENDPOINT_FILTER_MAILS
       this.url += '?' + ( new URLSearchParams( {from :this.fromItem,max:this.itemPerPage,filterID:this.filterDesc} ) ).toString();
+      console.log('token:'+this.VITE_API_ENDPOINT_TOKEN)
       fetch(this.url,{
-              method: 'get'
-          })
+              method: 'get',
+              headers: {
+              Authorization:'Bearer ' + this.VITE_API_ENDPOINT_TOKEN
+              }
+            })
         .then(response => 
           { if(response.ok) return response.json(); 
             else throw new Error("Status code error :" + response.status) 
@@ -174,7 +185,6 @@ export default {
     }
   },
   mounted() {
-    
     this.getMails()
   }
 }
