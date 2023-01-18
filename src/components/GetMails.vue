@@ -36,12 +36,20 @@ export default {
       this.isFilter = false
       this.url = this.VITE_API_ENDPOINT_ALL_MAILS
       this.url += '?' + ( new URLSearchParams( {from:this.fromItem,max:this.itemPerPage} ) ).toString();
+      if(this.isFilter){
+        this.fromItem = 0
+        this.actual_page=1
+      }
       this.doRequest()
     },
     getMailsFilter() {
       this.isFilter = true
       this.url = this.VITE_API_ENDPOINT_FILTER_MAILS
       this.url += '?' + ( new URLSearchParams( {from :this.fromItem,max:this.itemPerPage,filterID:this.filterDesc} ) ).toString();
+      if(!this.isFilter){
+        this.fromItem = 0
+        this.actual_page=1
+      }
       this.doRequest()
     },
     doRequest(){
@@ -49,11 +57,6 @@ export default {
       this.mailsPaginated = []
       this.isLoading = true
 
-      if(!this.isFilter){
-        this.fromItem = 0
-        this.actual_page=1
-      }
-  
       fetch(this.url,{
               method: 'get',
               headers: {
@@ -90,9 +93,6 @@ export default {
 
     getPagination(noPages){
       this.actual_page = noPages;
-
-
- 
     },
     
     getPreviousPage(){
