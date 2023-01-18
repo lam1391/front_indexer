@@ -13,6 +13,8 @@ To run this project, you will need to add the following environment variables to
 
 `VITE_API_ENDPOINT_FILTER_MAILS`
 
+`VITE_API_ENDPOINT_TOKEN`
+
 
 ## Run Locally
 

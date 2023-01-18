@@ -33,60 +33,27 @@ export default {
 
   methods: {
     getMails() {
-
-      this.isLoading = true
-      if(this.isFilter){
-        this.fromItem = 0
-        this.actual_page=1
-      }
       this.isFilter = false
-      this.mails = []
-      this.mailsPaginated = []
- 
       this.url = this.VITE_API_ENDPOINT_ALL_MAILS
       this.url += '?' + ( new URLSearchParams( {from:this.fromItem,max:this.itemPerPage} ) ).toString();
-      console.log('token:'+ this.VITE_API_ENDPOINT_TOKEN)
-      fetch(this.url,{
-            headers: {
-              method: 'get',
-              Authorization:'Bearer ' + this.VITE_API_ENDPOINT_TOKEN
-              }
-          
-          })
-        .then(response => 
-          response.json()
-        )
-        .then(data => {
-         
-          this.mails = data.hits.hits
-          console.log(data.hits.hits)
-          this.totalMailsFound = data.hits.total.value
-        })
-        .catch(err => {
-          this.error = err
-          this.errorMessage = err.message;
-          
-         }
-       )
-       .then(() => {
-        this.isLoading = false
-        });
+      this.doRequest()
     },
-   
-
     getMailsFilter() {
-    
+      this.isFilter = true
+      this.url = this.VITE_API_ENDPOINT_FILTER_MAILS
+      this.url += '?' + ( new URLSearchParams( {from :this.fromItem,max:this.itemPerPage,filterID:this.filterDesc} ) ).toString();
+      this.doRequest()
+    },
+    doRequest(){
+      this.mails = []
+      this.mailsPaginated = []
       this.isLoading = true
+
       if(!this.isFilter){
         this.fromItem = 0
         this.actual_page=1
       }
-      this.isFilter = true
-      this.mails = []
-      this.mailsPaginated = []
-      this.url = this.VITE_API_ENDPOINT_FILTER_MAILS
-      this.url += '?' + ( new URLSearchParams( {from :this.fromItem,max:this.itemPerPage,filterID:this.filterDesc} ) ).toString();
-      console.log('token:'+this.VITE_API_ENDPOINT_TOKEN)
+  
       fetch(this.url,{
               method: 'get',
               headers: {
@@ -115,6 +82,7 @@ export default {
        .finally(() => {
         this.isLoading = false
       });
+
     },
     totalPages(){
       return Math.ceil(this.totalMailsFound/this.itemPerPage)
@@ -191,9 +159,10 @@ export default {
 </script>
 
 <template>
-  <div >
+
+  <div>
       <!-- component SEARCHING-->
-      <div class="flex items-center justify-center p-5">
+      <div class="flex  items-center justify-center p-5">
         <div class="w-full rounded-lg bg-gray-200 p-5 w-2/4">
           <div class="flex">
             <div class="flex w-10 items-center justify-center rounded-tl-lg rounded-bl-lg border-r border-gray-200 bg-white p-5">
@@ -204,9 +173,9 @@ export default {
             <input v-model="filterDesc" type="text" @keyup.enter="getMailsFilter()" class="w-full bg-white pl-2 text-base font-semibold outline-0" placeholder="Search" id="searchID" />
             <input  @click="getMailsFilter()" type="button" value="Buscar" class="bg-blue-500 p-2 rounded-tr-lg rounded-br-lg text-white font-semibold hover:bg-blue-800 transition-colors"/>
           </div>
-        </div>
+        </div>   
       </div>
-  </div>
+    </div>
  
   <div class="relative block md:flex"> 
     <div class="w-full md:w-1/2 relative z-1 bg-gray-100 rounded shadow-lg overflow-hidden">
